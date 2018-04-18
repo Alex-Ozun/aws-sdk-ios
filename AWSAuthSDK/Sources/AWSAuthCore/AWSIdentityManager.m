@@ -17,19 +17,6 @@
 #import "AWSSignInProvider.h"
 #import "AWSSignInManager.h"
 
-@interface AWSIdentityManager()
-
-@property (nonatomic, readwrite, strong) AWSCognitoCredentialsProvider *credentialsProvider;
-
-@end
-
-@interface AWSSignInManager()
-
-@property (nonatomic, strong) id<AWSSignInProvider> currentSignInProvider;
-@property (nonatomic, strong) id<AWSSignInProvider> potentialSignInProvider;
-
-@end
-
 @implementation AWSIdentityManager
 
 static NSString *const AWSInfoIdentityManager = @"IdentityManager";

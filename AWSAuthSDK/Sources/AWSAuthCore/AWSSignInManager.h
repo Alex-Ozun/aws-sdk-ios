@@ -39,6 +39,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AWSSignInManager : NSObject
 
+@property (nonatomic, strong) id<AWSSignInProvider> currentSignInProvider;
+@property (nonatomic, strong) id<AWSSignInProvider> potentialSignInProvider;
+
 /**
  * Indicates whether the user is signed-in or not.
  * @return true if user is signed-in

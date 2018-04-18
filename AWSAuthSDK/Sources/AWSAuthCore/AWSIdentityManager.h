@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return the cognito credentials provider
  */
-@property (nonatomic, readonly, strong) AWSCognitoCredentialsProvider *credentialsProvider;
+@property (nonatomic, strong) AWSCognitoCredentialsProvider *credentialsProvider;
 
 /*
  Fetches the current auth state for a user

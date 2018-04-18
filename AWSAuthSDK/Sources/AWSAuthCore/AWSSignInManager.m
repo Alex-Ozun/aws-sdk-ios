@@ -23,9 +23,6 @@ typedef void (^AWSSignInManagerCompletionBlock)(id result, NSError *error);
 
 @property (atomic, copy) AWSSignInManagerCompletionBlock completionHandler;
 
-@property (nonatomic, strong) id<AWSSignInProvider> currentSignInProvider;
-@property (nonatomic, strong) id<AWSSignInProvider> potentialSignInProvider;
-
 -(id<AWSSignInProvider>)signInProviderForKey:(NSString *)key;
 
 @end
