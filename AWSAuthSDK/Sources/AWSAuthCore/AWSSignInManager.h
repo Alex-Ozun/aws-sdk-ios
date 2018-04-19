@@ -118,7 +118,7 @@ didFinishLaunchingWithOptions:(nullable NSDictionary *)launchOptions;
 
 - (BOOL)interceptApplication:(UIApplication *)application
                      openURL:(NSURL *)url
-                     options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options;
+                     options:(nonnull NSDictionary *)options;
 
 @end
 
