@@ -43,7 +43,7 @@ typedef NS_ENUM(NSInteger, AWSIdentityManagerAuthState) {
  The login handler method for the Sign-In Provider.
  The completionHandler will bubble back errors to the developers.
  */
-- (void)login:(void (^)(id _Nullable result, NSError *  finished))completionHandler;
+- (void)login:(void (^)(id _Nullable result, NSError * _Nullable error))completionHandler;
 
 /**
  The logout handler method for the Sign-In Provider.
