@@ -260,7 +260,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
 - (BOOL)interceptApplication:(UIApplication *)application
                      openURL:(NSURL *)url
-                     options:(nullable NSDictionary *)options {
+                     options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
     return [self.signInClient handleURL:url
                       sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
                              annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];

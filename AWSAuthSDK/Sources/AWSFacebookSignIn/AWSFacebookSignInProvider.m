@@ -229,7 +229,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
 - (BOOL)interceptApplication:(UIApplication *)application
                      openURL:(NSURL *)url
-                     options:(nullable NSDictionary *)options {
+                     options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
     Class fbAppDelegateClass = NSClassFromString(@"FBSDKApplicationDelegate");
     if (fbAppDelegateClass) {
         if([[fbAppDelegateClass sharedInstance] application:application
