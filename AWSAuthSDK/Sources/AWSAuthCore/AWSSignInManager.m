@@ -20,7 +20,7 @@
 typedef void (^AWSSignInManagerCompletionBlock)(id result, NSError *error);
 
 @interface AWSSignInManager()
-
+@property (atomic, copy) void (^providerCompletionHandler)(BOOL);
 @property (atomic, copy) AWSSignInManagerCompletionBlock completionHandler;
 
 -(id<AWSSignInProvider>)signInProviderForKey:(NSString *)key;
@@ -85,7 +85,8 @@ static AWSIdentityManager *identityManager;
 }
 
 - (void)loginWithSignInProviderKey:(NSString *)signInProviderKey
-                 completionHandler:(void (^)(id result, NSError *error))completionHandler {
+         providerCompletionHandler:(void (^)(BOOL finished))providerCompletionHandler
+                 completionHandler:(void (^)(id _Nullable result, NSError * _Nullable error))completionHandler {
     
     if ([self signInProviderForKey:signInProviderKey]) {
         self.potentialSignInProvider = [self signInProviderForKey:signInProviderKey];
@@ -96,12 +97,19 @@ static AWSIdentityManager *identityManager;
     }
     
     self.completionHandler = completionHandler;
-    [self.potentialSignInProvider login:completionHandler];
+    self.providerCompletionHandler = providerCompletionHandler;
+    
+    void (^providerCompletion)(id _Nullable result, NSError * _Nullable error) = ^void(id _Nullable result, NSError * _Nullable error) {
+        self.providerCompletionHandler(result != nil && error == nil);
+    };
+    
+    [self.potentialSignInProvider login: providerCompletion];
 }
 
 
-- (void)resumeSessionWithCompletionHandler:(void (^)(id result, NSError *error))completionHandler {
-
+- (void)resumeSessionWithProviderCompletionHandler:(void (^)(BOOL finished))providerCompletionHandler
+                                 completionHandler:(void (^)(id _Nullable result, NSError * _Nullable error))completionHandler {
+    self.providerCompletionHandler = providerCompletionHandler;
     self.completionHandler = completionHandler;
     
     for(NSString *key in [self getRegisteredSignInProviders]) {
@@ -117,7 +125,12 @@ static AWSIdentityManager *identityManager;
     }
 }
 
+- (void)cancelLogin {
+    self.providerCompletionHandler(NO);
+}
+
 - (void)completeLogin {
+    self.providerCompletionHandler(YES);
     // Force a refresh of credentials to see if we need to merge unauth credentials.
     [identityManager.credentialsProvider invalidateCachedTemporaryCredentials];
     

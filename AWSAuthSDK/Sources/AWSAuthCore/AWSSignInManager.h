@@ -78,13 +78,15 @@ NS_ASSUME_NONNULL_BEGIN
  * @param completionHandler used to callback application with async operation results
  */
 - (void)loginWithSignInProviderKey:(NSString *)signInProviderKey
-                 completionHandler:(void (^)(id _Nullable result, NSError * _Nullable error))completionHandler NS_SWIFT_NAME(login(signInProviderKey:completionHandler:));
+         providerCompletionHandler:(void (^)(BOOL finished))providerCompletionHandler
+                 completionHandler:(void (^)(id _Nullable result, NSError * _Nullable error))completionHandler NS_SWIFT_NAME(login(signInProviderKey:providerCompletionHandler:completionHandler:));
 
 /**
  * Attempts to resume session with the previous sign-in provider.
  * @param completionHandler used to callback application with async operation results
  */
-- (void)resumeSessionWithCompletionHandler:(void (^)(id _Nullable result, NSError * _Nullable error))completionHandler;
+- (void)resumeSessionWithProviderCompletionHandler:(void (^)(BOOL finished))providerCompletionHandler
+                                completionHandler:(void (^)(id _Nullable result, NSError * _Nullable error))completionHandler;
 
 /**
  * Passes parameters used to launch the application to the current identity provider. For some

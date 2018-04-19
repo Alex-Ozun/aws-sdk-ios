@@ -28,6 +28,7 @@ typedef void (^AWSSignInManagerCompletionBlock)(id result, NSError *error);
 @interface AWSSignInManager()
 
 - (void)completeLogin;
+- (void)cancelLogin;
 
 @end
 
@@ -198,6 +199,8 @@ static NSString *const AWSInfoGoogleClientId = @"ClientId-iOS";
         }
         if (self.completionHandler) {
             self.completionHandler(nil, error);
+        } else {
+            [[AWSSignInManager sharedInstance] cancelLogin];
         }
     } else {
         if (self.taskCompletionSource) {
