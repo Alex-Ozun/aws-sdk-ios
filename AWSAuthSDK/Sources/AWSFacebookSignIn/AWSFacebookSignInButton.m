@@ -190,5 +190,5 @@ static NSString *FacebookLogoImageKey = @"fb-icon";
                                                                                error:error];
                                         }];
     
-
+}
 @end
