@@ -168,4 +168,19 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     return YES;
 }
 
+- (BOOL)interceptApplication:(UIApplication *)application
+                     openURL:(NSURL *)url
+                     options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    if (self.potentialSignInProvider) {
+        if ([self.potentialSignInProvider conformsToProtocol:@protocol(AWSSignInProviderApplicationIntercept)]) {
+            id<AWSSignInProviderApplicationIntercept> provider = (id<AWSSignInProviderApplicationIntercept>)self.potentialSignInProvider;
+            return [provider interceptApplication:application
+                                          openURL:url
+                                          options:options];
+        }
+    }
+    
+    return YES;
+}
+
 @end

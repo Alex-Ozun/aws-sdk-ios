@@ -227,6 +227,21 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     return NO;
 }
 
+- (BOOL)interceptApplication:(UIApplication *)application
+                     openURL:(NSURL *)url
+                     options:(nullable NSDictionary *)options {
+    Class fbAppDelegateClass = NSClassFromString(@"FBSDKApplicationDelegate");
+    if (fbAppDelegateClass) {
+        if([[fbAppDelegateClass sharedInstance] application:application
+                                                    openURL:url
+                                                    options:options]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+
 - (BOOL)isConfigurationKeyPresent {
     
     AWSServiceInfo *serviceInfo = [[AWSInfo defaultAWSInfo].rootInfoDictionary objectForKey:AWSInfoFacebookSignInIdentifier];

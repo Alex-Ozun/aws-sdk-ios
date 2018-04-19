@@ -47,6 +47,9 @@ didFinishLaunchingWithOptions:(nullable NSDictionary *)launchOptions;
            sourceApplication:(nullable NSString *)sourceApplication
                   annotation:(id)annotation;
 
+- (BOOL)interceptApplication:(UIApplication *)application
+                     openURL:(NSURL *)url
+                     options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options;
 @end
 
 NS_ASSUME_NONNULL_END
