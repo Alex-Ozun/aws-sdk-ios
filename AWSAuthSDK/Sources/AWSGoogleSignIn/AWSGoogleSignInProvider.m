@@ -25,13 +25,6 @@ static int64_t const AWSGoogleSignInProviderTokenRefreshTimeout = 60 * NSEC_PER_
 
 typedef void (^AWSSignInManagerCompletionBlock)(id result, NSError *error);
 
-@interface AWSSignInManager()
-
-- (void)completeLogin;
-- (void)cancelLogin;
-
-@end
-
 @interface AWSGoogleSignInProvider() <GIDSignInDelegate, GIDSignInUIDelegate>
 
 @property (atomic, strong) AWSTaskCompletionSource *taskCompletionSource;

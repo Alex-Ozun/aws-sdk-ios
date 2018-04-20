@@ -24,13 +24,6 @@ typedef void (^AWSSignInManagerCompletionBlock)(id result, NSError *error);
 
 static NSString* const AWSInfoFacebookSignInIdentifier = @"FacebookSignIn";
 
-@interface AWSSignInManager()
-
-- (void)completeLogin;
-- (void)cancelLogin;
-
-@end
-
 @interface AWSFacebookSignInProvider()
 
 @property (strong, nonatomic) id facebookLogin;

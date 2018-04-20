@@ -122,6 +122,9 @@ didFinishLaunchingWithOptions:(nullable NSDictionary *)launchOptions;
                      openURL:(NSURL *)url
                      options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options;
 
+- (void)cancelLogin;
+- (void)completeLogin;
+
 @end
 
 NS_ASSUME_NONNULL_END
