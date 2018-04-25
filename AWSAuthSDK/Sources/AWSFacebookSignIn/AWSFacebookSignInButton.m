@@ -182,7 +182,7 @@ static NSString *FacebookLogoImageKey = @"fb-icon";
 
 - (void)logInWithProvider:(id)sender {
     [[AWSSignInManager sharedInstance] loginWithSignInProviderKey:[self.signInProvider identityProviderName]
-                                        providerCompletionHandler:^(BOOL finished) {
+                                        providerCompletionHandler:^(BOOL finished, NSError * _Nullable error) {
                                             
                                         } completionHandler:^(id  _Nullable result, NSError * _Nullable error) {
                                             [self.delegate onLoginWithSignInProvider:self.signInProvider
