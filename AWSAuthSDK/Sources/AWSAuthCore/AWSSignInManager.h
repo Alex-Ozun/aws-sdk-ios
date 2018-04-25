@@ -78,14 +78,14 @@ NS_ASSUME_NONNULL_BEGIN
  * @param completionHandler used to callback application with async operation results
  */
 - (void)loginWithSignInProviderKey:(NSString *)signInProviderKey
-         providerCompletionHandler:(void (^)(BOOL finished))providerCompletionHandler
+         providerCompletionHandler:(void (^)(BOOL success, NSError * _Nullable error))providerCompletionHandler
                  completionHandler:(void (^)(id _Nullable result, NSError * _Nullable error))completionHandler NS_SWIFT_NAME(login(signInProviderKey:providerCompletionHandler:completionHandler:));
 
 /**
  * Attempts to resume session with the previous sign-in provider.
  * @param completionHandler used to callback application with async operation results
  */
-- (void)resumeSessionWithProviderCompletionHandler:(void (^)(BOOL finished))providerCompletionHandler
+- (void)resumeSessionWithProviderCompletionHandler:(void (^)(BOOL success, NSError * _Nullable error))providerCompletionHandler
                                 completionHandler:(void (^)(id _Nullable result, NSError * _Nullable error))completionHandler;
 
 /**
@@ -122,7 +122,7 @@ didFinishLaunchingWithOptions:(nullable NSDictionary *)launchOptions;
                      openURL:(NSURL *)url
                      options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options;
 
-- (void)cancelLogin;
+- (void)cancelLogin:(NSError * _Nullable)error;
 - (void)completeLogin;
 
 @end

@@ -18,9 +18,10 @@
 #import "AWSSignInProviderApplicationIntercept.h"
 
 typedef void (^AWSSignInManagerCompletionBlock)(id result, NSError *error);
+typedef void (^AWSSignInProviderCompletionBlock)(BOOL success, NSError *error);
 
 @interface AWSSignInManager()
-@property (atomic, copy) void (^providerCompletionHandler)(BOOL);
+@property (atomic, copy) AWSSignInProviderCompletionBlock providerCompletionHandler;
 @property (atomic, copy) AWSSignInManagerCompletionBlock completionHandler;
 
 -(id<AWSSignInProvider>)signInProviderForKey:(NSString *)key;
@@ -85,7 +86,7 @@ static AWSIdentityManager *identityManager;
 }
 
 - (void)loginWithSignInProviderKey:(NSString *)signInProviderKey
-         providerCompletionHandler:(void (^)(BOOL finished))providerCompletionHandler
+         providerCompletionHandler:(void (^)(BOOL finished, NSError * _Nullable error))providerCompletionHandler
                  completionHandler:(void (^)(id _Nullable result, NSError * _Nullable error))completionHandler {
     
     if ([self signInProviderForKey:signInProviderKey]) {
@@ -100,14 +101,14 @@ static AWSIdentityManager *identityManager;
     self.providerCompletionHandler = providerCompletionHandler;
     
     void (^providerCompletion)(id _Nullable result, NSError * _Nullable error) = ^void(id _Nullable result, NSError * _Nullable error) {
-        self.providerCompletionHandler(result != nil && error == nil);
+        self.providerCompletionHandler(result != nil && error == nil, error);
     };
     
     [self.potentialSignInProvider login: providerCompletion];
 }
 
 
-- (void)resumeSessionWithProviderCompletionHandler:(void (^)(BOOL finished))providerCompletionHandler
+- (void)resumeSessionWithProviderCompletionHandler:(void (^)(BOOL finished, NSError * _Nullable error))providerCompletionHandler
                                  completionHandler:(void (^)(id _Nullable result, NSError * _Nullable error))completionHandler {
     self.providerCompletionHandler = providerCompletionHandler;
     self.completionHandler = completionHandler;
@@ -125,12 +126,13 @@ static AWSIdentityManager *identityManager;
     }
 }
 
-- (void)cancelLogin {
-    self.providerCompletionHandler(NO);
+- (void)cancelLogin:(NSError * _Nullable)error {
+    // Force a refresh of credentials to see if we need to merge unauth credentials.
+    [identityManager.credentialsProvider invalidateCachedTemporaryCredentials];
+    self.providerCompletionHandler(NO, error);
 }
 
 - (void)completeLogin {
-    self.providerCompletionHandler(YES);
     // Force a refresh of credentials to see if we need to merge unauth credentials.
     [identityManager.credentialsProvider invalidateCachedTemporaryCredentials];
     
@@ -139,6 +141,7 @@ static AWSIdentityManager *identityManager;
         self.potentialSignInProvider = nil;
     }
     
+    self.providerCompletionHandler(YES, nil);
     [[identityManager.credentialsProvider credentials] continueWithBlock:^id _Nullable(AWSTask<AWSCredentials *> * _Nonnull task) {
         dispatch_async(dispatch_get_main_queue(), ^{
             

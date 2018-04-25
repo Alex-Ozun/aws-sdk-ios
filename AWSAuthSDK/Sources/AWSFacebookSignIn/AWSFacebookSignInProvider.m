@@ -147,7 +147,7 @@ static NSString* const AWSInfoFacebookSignInIdentifier = @"FacebookSignIn";
             [fbSDKAccessToken refreshCurrentAccessToken:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
                 if (error) {
                     AWSDDLogError(@"'refreshCurrentAccessToken' failed: %@", error);
-                    [[AWSSignInManager sharedInstance] cancelLogin];
+                    [[AWSSignInManager sharedInstance] cancelLogin: error];
                 } else {
                     [self completeLogin];
                 }

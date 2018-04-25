@@ -193,7 +193,7 @@ static NSString *const AWSInfoGoogleClientId = @"ClientId-iOS";
         if (self.completionHandler) {
             self.completionHandler(nil, error);
         } else {
-            [[AWSSignInManager sharedInstance] cancelLogin];
+            [[AWSSignInManager sharedInstance] cancelLogin: error];
         }
     } else {
         if (self.taskCompletionSource) {
